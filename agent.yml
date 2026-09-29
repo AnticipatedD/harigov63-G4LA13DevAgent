@@ -1,0 +1,41 @@
+# =====================================================================
+# G4LA13: Vane-Guard Sovereign Architecture (v1.0) Root Agent Config
+# Competition: Google - The Gemma 4 Developer Agent Competition
+# Base Model Enforcement: gemma-4-31b-it-qat-w4a16-ct
+# =====================================================================
+
+manifest_version: "1.0"
+agent_type: "root_coder"
+
+# Required Base Model Variant
+model:
+  name: "gemma-4-31b-it-qat-w4a16-ct"
+  max_sequence_length: 32768
+  # Explicitly load your fine-tuned PEFT LoRA adapter
+  adapter: "main_lora"
+
+# Operational Control Hyperparameters
+sampling:
+  temperature: 0.2
+  top_p: 0.95
+  thinking_budget: 4096
+
+# Load ModularPrompts & Configurations via Strict System Path Directives
+system_prompt: !include prompts/system.md
+sampling_config: !include configs/sampling.yaml
+
+# Predefined Harness Tool Mappings & Sub-Agents
+tools:
+  - name: "run_command"
+  - name: "submit_patch"
+  - name: "get_status"
+  - name: "read_file"
+  - name: "edit_file"
+  - name: "write_file"
+  - name: "get_code_neighbors"
+  - name: "search_similar_code"
+  - name: "get_code_subgraph"
+
+# Sub-Agent / Tool YAML Delegations
+sub_agents:
+  - !include sub_agents/code_analyzer.yaml
